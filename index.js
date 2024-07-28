@@ -26,13 +26,21 @@ let persons = [
   }
 ]
 
-
+//get the root route
 app.get('/', (request, response) => {
   response.send(`<h1>Hello World!</h1>`)
 })
 
+//get the persons array of objs route
 app.get('/api/persons', (request, response) => {
   response.json(persons)
+})
+
+//get an individual person route
+app.get('/api/persons/:id', (request, response) => {
+  const id = request.params.id
+  const person = persons.find(person => person.id === id)
+  response.json(person)
 })
 
 const PORT = 3001
