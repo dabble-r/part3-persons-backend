@@ -26,6 +26,12 @@ let persons = [
   }
 ]
 
+// generate maxID for post new person
+const idGenerator = () => {
+  const maxId = persons.length > 0 ? Math.max(...persons.map(ele => Number(ele.id))) : 0;
+  return String(maxId + 1);
+}
+
 //get the root route
 app.get('/', (request, response) => {
   response.send(`<h1>Hello World!</h1>`)
@@ -58,8 +64,23 @@ app.delete('/api/persons/:id', (request, response) => {
 
 //add persons to the server, permanent changes
 app.post('/api/persons', (request, response) => {
-  const person = request.body;
-  console.log(request.body)
+  const body = request.body;
+
+  if (!body.name) {
+    return response.status(400).json({ 
+      error: 'name missing' 
+    })
+  } 
+
+  const person = {
+    name: body.name,
+    number: body.number,
+    id: idGenerator()
+  }
+
+  persons = persons.concat(person)
+
+  //console.log(request.body)
   response.json(person)
 })
 
