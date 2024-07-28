@@ -1,7 +1,7 @@
 const http = require('http')
 const express = require('express')
 app = express();
-
+app.use(express.json())
 
 let persons = [
   {
@@ -38,8 +38,28 @@ app.get('/api/persons', (request, response) => {
 
 //get an individual person route
 app.get('/api/persons/:id', (request, response) => {
-  const id = request.params.id
-  const person = persons.find(person => person.id === id)
+  const id = request.params.id;
+  const person = persons.find(person => person.id === id);
+
+  if (person) {
+    response.json(person);
+  } else {
+    response.status(404).end();
+  }
+})
+
+//delete an individual person
+app.delete('/api/persons/:id', (request, response) => {
+  const id = request.params.id;
+  const persons = persons.filter(person => person.id !== id);
+  console.log(id)
+  response.status(204).end();
+})
+
+//add persons to the server, permanent changes
+app.post('/api/persons', (request, response) => {
+  const person = request.body;
+  console.log(request.body)
   response.json(person)
 })
 
