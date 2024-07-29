@@ -26,10 +26,25 @@ let persons = [
   }
 ]
 
+//check for id duplicates
+const checkId = (num) => {
+  return persons.filter(ele => ele.id == num)
+}
+
+//recursive solution to find unique id
+const uniqId = (num) => {
+  // Base Case
+  if (!checkId(num)) {
+    return id;
+  }
+  //Recursion
+  return idGenerator();
+}
+
 // generate maxID for post new person
 const idGenerator = () => {
-  const maxId = persons.length > 0 ? Math.max(...persons.map(ele => Number(ele.id))) : 0;
-  return String(maxId + 1);
+  const rand = Math.floor(Math.random() * 1000);
+  return String(rand);
 }
 
 //get the root route
@@ -69,16 +84,22 @@ app.delete('/api/persons/:id', (request, response) => {
 //add persons to the server, permanent changes
 app.post('/api/persons', (request, response) => {
   const body = request.body;
+  const rand = idGenerator();
+  
+
+
   if (!body.name) {
     return response.status(400).json({ 
       error: 'name missing' 
     })
   } 
+
   const person = {
     name: body.name,
     number: body.number,
-    id: idGenerator()
+    id: uniqId(rand)
   }
+
   persons = persons.concat(person)
   //console.log(request.body)
   response.json(person)
