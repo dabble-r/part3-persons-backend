@@ -1,7 +1,9 @@
 const http = require('http')
 const express = require('express')
+const morgan = require('morgan')
 app = express();
 app.use(express.json())
+app.use(morgan('tiny'))
 
 let persons = [
   {
@@ -82,15 +84,12 @@ app.delete('/api/persons/:id', (request, response) => {
   const deleted = persons.filter(person => person.id !== id);
   //console.log(id)
   response.json(deleted)
- 
- 
 })
 
 //add persons to the server, permanent changes
 app.post('/api/persons', (request, response) => {
   const body = request.body;
   const rand = idGenerator();
-
   if (!body.name || !body.number) {
     return response.status(400).json({ 
       error: 'name or number is missing' 
@@ -101,13 +100,11 @@ app.post('/api/persons', (request, response) => {
       error: "name must be unique"
     })
   }
-
   const person = {
     name: body.name,
     number: body.number,
     id: uniqId(rand)
   }
-
   persons = persons.concat(person)
   //console.log(request.body)
   response.json(person)
