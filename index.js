@@ -1,9 +1,11 @@
 const http = require('http')
 const express = require('express')
 const morgan = require('morgan')
+morgan.token('body', function(req) {return JSON.stringify(req.body)})
 app = express();
 app.use(express.json())
-app.use(morgan('tiny'))
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
+
 
 let persons = [
   {
@@ -61,6 +63,7 @@ app.get('/', (request, response) => {
 
 //get the persons array of objs route
 app.get('/api/persons', (request, response) => {
+  console.log(response.body)
   response.json(persons)
 })
 
