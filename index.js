@@ -1,10 +1,13 @@
-const http = require('http')
-const express = require('express')
-const morgan = require('morgan')
-morgan.token('body', function(req) {return JSON.stringify(req.body)})
+const http = require('http');
+const express = require('express');
+const morgan = require('morgan');
+const cors = require('cors');
+
+morgan.token('body', function(req) {return JSON.stringify(req.body)});
 app = express();
-app.use(express.json())
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
+app.use(express.json());
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'));
+app.use(cors());
 
 
 let persons = [
@@ -32,12 +35,12 @@ let persons = [
 
 //check for id duplicates, create new person
 const checkId = (num) => {
-  return persons.filter(ele => ele.id == num)
+  return persons.filter(ele => ele.id == num);
 }
 
 //check name, create new person
 const checkName = (str) => {
-  return persons.filter(ele => ele.name == str)
+  return persons.filter(ele => ele.name == str);
 }
 
 //recursive solution to find unique id
@@ -125,6 +128,6 @@ app.get('/api/info', (request, response) => {
 
 
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 app.listen(PORT)
 console.log(`Server running on port ${PORT}`)
