@@ -58,30 +58,39 @@ app.get('/api/persons/:id', (request, response) => {
 app.delete('/api/persons/:id', (request, response) => {
   const id = request.params.id;
   const persons = persons.filter(person => person.id !== id);
-  console.log(id)
+  //console.log(id)
   response.status(204).end();
 })
 
 //add persons to the server, permanent changes
 app.post('/api/persons', (request, response) => {
   const body = request.body;
-
   if (!body.name) {
     return response.status(400).json({ 
       error: 'name missing' 
     })
   } 
-
   const person = {
     name: body.name,
     number: body.number,
     id: idGenerator()
   }
-
   persons = persons.concat(person)
-
   //console.log(request.body)
   response.json(person)
+})
+
+app.get('/api/info', (request, response) => {
+  const timestamp = new Date();
+  const detail = persons.length;
+  const info = `<div>
+
+          <p> Phonebook has info for ${detail}. </p>
+          <p> ${timestamp} </p> 
+  
+      </div>`
+
+   response.send(info)
 })
 
 const PORT = 3001
