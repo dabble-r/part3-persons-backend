@@ -26,9 +26,14 @@ let persons = [
   }
 ]
 
-//check for id duplicates
+//check for id duplicates, create new person
 const checkId = (num) => {
   return persons.filter(ele => ele.id == num)
+}
+
+//check name, create new person
+const checkName = (str) => {
+  return persons.filter(ele => ele.name == str)
 }
 
 //recursive solution to find unique id
@@ -85,14 +90,17 @@ app.delete('/api/persons/:id', (request, response) => {
 app.post('/api/persons', (request, response) => {
   const body = request.body;
   const rand = idGenerator();
-  
 
-
-  if (!body.name) {
+  if (!body.name || !body.number) {
     return response.status(400).json({ 
-      error: 'name missing' 
+      error: 'name or number is missing' 
     })
-  } 
+  }
+  if (checkName(body.name)) {
+    return response.status(400).json({
+      error: "name must be unique"
+    })
+  }
 
   const person = {
     name: body.name,
