@@ -43,6 +43,7 @@ app.get('/api/persons', (request, response) => {
 })
 
 //get an individual person route
+//display 404 status if no such person is found
 app.get('/api/persons/:id', (request, response) => {
   const id = request.params.id;
   const person = persons.find(person => person.id === id);
@@ -84,14 +85,13 @@ app.get('/api/info', (request, response) => {
   const timestamp = new Date();
   const detail = persons.length;
   const info = `<div>
-
-          <p> Phonebook has info for ${detail}. </p>
-          <p> ${timestamp} </p> 
-  
+          <p> Phonebook has info for ${detail}.</p>
+          <p> ${timestamp} </p>
       </div>`
-
    response.send(info)
 })
+
+
 
 const PORT = 3001
 app.listen(PORT)
