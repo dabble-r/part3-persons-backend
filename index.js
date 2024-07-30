@@ -25,12 +25,12 @@ let persons = [
   },
   {
     id: "3",
-    name: "Louis CK",
+    name: "Chris Rock",
     number: "504-919-3193"
   },
   {
     id: "4",
-    name: "Frank Sinatra",
+    name: "Gene Wilder",
     number: "504-919-3194"
   }
 ]
