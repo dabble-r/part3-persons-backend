@@ -42,7 +42,12 @@ const checkId = (num) => {
 
 //check name, create new person
 const checkName = (str) => {
-  return persons.filter(ele => ele.name == str);
+  return persons.reduce((acc,curr) => {
+      if (curr.name == str) {
+        acc = true;
+      }
+      return acc;
+  },false);
 }
 
 //recursive solution to find unique id
