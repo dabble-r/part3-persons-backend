@@ -94,9 +94,9 @@ app.get('/api/persons/:id', (request, response) => {
 app.delete('/api/persons/:id', (request, response) => {
   const id = request.params.id;
   //const person = persons.find(person => person.id == id) ? person : null;
-  const deleted = persons.filter(person => person.id !== id);
+  persons = persons.filter(person => person.id !== id);
   //console.log(id)
-  response.json(deleted)
+  response.json(persons)
 })
 
 //add persons to the server, permanent changes
